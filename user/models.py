@@ -11,9 +11,9 @@ class User(models.Model):
 
 
 class Comment(models.Model):
-    item_id = models.ForeignKey('mylist.Item')
-    commenter_id = models.ForeignKey('index.User')
+    item_id = models.ForeignKey('mylist.Item', on_delete=models.CASCADE)
+    commenter_id = models.ForeignKey('user.User', on_delete=models.CASCADE)
     message = models.CharField(max_length=5000)
-    date = models.DateTimeField()
+    date = models.DateTimeField(auto_now_add=True)
     visible_to_owner = models.BooleanField()
 
