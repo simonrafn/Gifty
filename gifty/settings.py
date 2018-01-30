@@ -31,11 +31,10 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'user',
-    'mylist',
-    'index',
-    'contacts',
-    'notifications',
+    'userprofile.apps.UserprofileConfig',
+    'mylist.apps.MylistConfig',
+    'index.apps.IndexConfig',
+    'notifications.apps.NotificationsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
