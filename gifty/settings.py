@@ -126,4 +126,4 @@ STATIC_URL = '/static/'
 
 # Authentication backends
 
-AUTHENTICATION_BACKENDS = [os.path.join(BASE_DIR, 'auth_backends/email_backend.MyBackend')]
+AUTHENTICATION_BACKENDS = [os.path.join(BASE_DIR, 'auth_backends.email_backend.MyBackend')]
