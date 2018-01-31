@@ -129,4 +129,4 @@ AUTHENTICATION_BACKENDS = [os.path.join(BASE_DIR, 'auth_backends.email_backend.M
 
 # login redirect
 
-LOGIN_REDIRECT_URL = 'mylist'
+LOGIN_REDIRECT_URL = '/'
