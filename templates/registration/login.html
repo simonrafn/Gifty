@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Gifty{% endblock %}
+
+{% block content %}
+  <h2>Login</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Login</button>
+  </form>
+
+  <h3>Or <a href="{% url 'accounts:signup' %}">Sign up</a></h3>
+
+{% endblock %}

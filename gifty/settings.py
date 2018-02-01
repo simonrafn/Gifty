@@ -31,9 +31,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'accounts.apps.AccountsConfig',
     'userprofile.apps.UserprofileConfig',
     'mylist.apps.MylistConfig',
-    'index.apps.IndexConfig',
     'notifications.apps.NotificationsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -125,8 +125,12 @@ STATIC_URL = '/static/'
 
 # Authentication backends
 
-AUTHENTICATION_BACKENDS = [os.path.join(BASE_DIR, 'auth_backends.email_backend.MyBackend')]
+# AUTHENTICATION_BACKENDS = [os.path.join(BASE_DIR, 'auth_backends.email_backend.MyBackend')]
 
-# login redirect
 
-LOGIN_REDIRECT_URL = '/'
+# Redirect here after you log in successfully
+LOGIN_REDIRECT_URL = 'mylist:mylist'
+# Redirect here if you need to log in to access the site you attempted to access
+LOGIN_URL = 'login'
+# Redirect here when you log out
+LOGOUT_REDIRECT_URL = 'login'
