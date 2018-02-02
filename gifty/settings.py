@@ -134,3 +134,11 @@ LOGIN_REDIRECT_URL = 'mylist:mylist'
 LOGIN_URL = 'login'
 # Redirect here when you log out
 LOGOUT_REDIRECT_URL = 'login'
+
+
+# Where to store uploaded files
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/images/')
+
+
+# Define what is used as our user model
+AUTH_USER_MODEL = 'userprofile.User'

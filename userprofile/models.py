@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.contrib.auth.models import AbstractUser
 
 
 # Create your models here.
@@ -13,12 +14,6 @@ class Comment(models.Model):
     message = models.CharField(max_length=5000)
     date = models.DateTimeField(auto_now_add=True)
     visible_to_owner = models.BooleanField()
-
-
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    friends = models.ManyToManyField('self')
-    avatar = models.CharField(max_length=10)  # Temporary, replace later with something that can store images
 
 
 class FriendRequest(models.Model):
@@ -33,6 +28,25 @@ class FriendRequest(models.Model):
         related_name='received_friend_requests'
     )
 
+
+class User(AbstractUser):
+    email = models.EmailField(unique=True)
+    username = models.CharField(max_length=100)
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
+
+    def __str__(self):
+        return self.email
+
+
+
+"""
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    friends = models.ManyToManyField('self')
+    avatar = models.ImageField()  # have to add where to save images, should probably be set to MEDIA_URL ?
+"""
 
 """
 @receiver(post_save, sender=User)
