@@ -3,8 +3,9 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import User
 
 
-class CustomUserForm(UserCreationForm):
+class CustomUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ('email', )
-        error_css_class = 'error'
+        fields = ('email', 'username', )
+        # error_css_class = 'error'
+        # required_css_class = 'required'

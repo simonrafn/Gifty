@@ -123,10 +123,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# Authentication backends
-
-# AUTHENTICATION_BACKENDS = [os.path.join(BASE_DIR, 'auth_backends.email_backend.MyBackend')]
-
 
 # Redirect here after you log in successfully
 LOGIN_REDIRECT_URL = 'mylist:mylist'

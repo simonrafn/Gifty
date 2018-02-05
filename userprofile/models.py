@@ -1,8 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 from django.contrib.auth.models import AbstractUser
 
 
@@ -31,7 +29,7 @@ class FriendRequest(models.Model):
 
 class User(AbstractUser):
     email = models.EmailField(unique=True)
-    username = models.CharField(max_length=100)
+    # username = models.CharField(max_length=100)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
@@ -46,17 +44,5 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     friends = models.ManyToManyField('self')
     avatar = models.ImageField()  # have to add where to save images, should probably be set to MEDIA_URL ?
-"""
-
-"""
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        UserProfile.objects.create(user=instance)
-
-
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
 """
 
