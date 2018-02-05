@@ -1,8 +1,9 @@
 from django.urls import reverse_lazy
 from django.views import generic
 from userprofile.forms import CustomUserCreationForm
-from userprofile.models import User
 from django.contrib.auth import authenticate, login
+from django.http import HttpResponse
+from django.shortcuts import redirect
 
 # Create your views here.
 
@@ -10,25 +11,19 @@ from django.contrib.auth import authenticate, login
 class SignUp(generic.CreateView):
     # form_class = UserCreationForm
     form_class = CustomUserCreationForm
-    # success_url = reverse_lazy('login')
-    success_url = reverse_lazy('mylist:mylist')
+    # success_url = reverse_lazy('mylist:mylist')
     template_name = 'accounts/signup.html'
 
     def form_valid(self, form):
-        login(self.request, form.user)
-        return super(SignUp, self).form_valid(form)
-
-    """
-        def form_valid(self, form):
-        # save the new user first
+        # save the user
         form.save()
-        # get the username and password
-        username = self.request.POST['email']
-        password = self.request.POST['password1']
-        # username = form.cleaned_data['email']
-        # password = form.cleaned_data['password1']
-        # authenticate user then login
-        user = authenticate(email=username, password=password)
+
+        # get user data, authenticate, and login
+        email = form.cleaned_data['email']
+        password = form.cleaned_data['password1']
+        user = authenticate(self.request, email=email, password=password)
         login(self.request, user)
-        return super(SignUp, self).form_valid(form)
-    """
+
+        # mylist will redirect to login if the login didn't work
+        return redirect(to='mylist:mylist')
+        # return super(SignUp, self).form_valid(form)
