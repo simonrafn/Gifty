@@ -16,6 +16,7 @@ class Comment(models.Model):
     visible_to_owner = models.BooleanField()
 
 
+"""
 class FriendRequest(models.Model):
     sender = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -27,6 +28,7 @@ class FriendRequest(models.Model):
         on_delete=models.CASCADE,
         related_name='received_friend_requests'
     )
+"""
 
 
 class User(AbstractUser):
@@ -40,6 +42,7 @@ class User(AbstractUser):
     def __str__(self):
         return self.email
 
+    """
     # get a queryset of the users on your friends list
     def get_friends(self):
         return self.friends.all()
@@ -69,3 +72,4 @@ class User(AbstractUser):
     # remove a user from your friends list (you will also be removed from their friends list)
     def remove_friend(self, user_to_remove):
         self.friends.remove(user_to_remove)
+    """
