@@ -33,7 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'contacts.apps.ContactsConfig',
     'accounts.apps.AccountsConfig',
-    'userprofile.apps.UserprofileConfig',
+    'customuser.apps.CustomuserConfig',
     'mylist.apps.MylistConfig',
     'notifications.apps.NotificationsConfig',
     'django.contrib.admin',
@@ -138,4 +138,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/images/')
 
 
 # Define what is used as our user model
-AUTH_USER_MODEL = 'userprofile.User'
+AUTH_USER_MODEL = 'customuser.User'

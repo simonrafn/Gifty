@@ -1,6 +1,6 @@
 from django.urls import reverse_lazy
 from django.views import generic
-from userprofile.forms import CustomUserCreationForm
+from customuser.forms import CustomUserCreationForm
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
 from django.shortcuts import redirect

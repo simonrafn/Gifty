@@ -3,8 +3,8 @@ from django.conf import settings
 import logging
 from django.db.models.base import ObjectDoesNotExist
 
-# Create your models here.
 
+# Create your models here.
 
 class FriendRequest(models.Model):
     sender = models.ForeignKey(
@@ -37,13 +37,13 @@ def get_friend_requests(user):
 def send_friend_request(sender, receiver):
     are_friends = sender.friends.filter(pk=receiver.pk)
     receiver_already_sent_friend_request_to_sender = sender.received_friend_requests.filter(sender__pk=receiver.pk)
-    friend_request_to_receiver = sender.sent_friend_requests.filter(receiver__pk=receiver.pk)
+    sender_already_sent_friend_request_to_receiver = sender.sent_friend_requests.filter(receiver__pk=receiver.pk)
 
     if are_friends:
         return
     elif receiver_already_sent_friend_request_to_sender:
         accept_friend_request(sender, receiver)
-    elif not friend_request_to_receiver:
+    elif not sender_already_sent_friend_request_to_receiver:
         FriendRequest.objects.create(sender=sender, receiver=receiver)
 
 
