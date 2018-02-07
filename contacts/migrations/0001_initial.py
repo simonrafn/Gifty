@@ -12,13 +12,10 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Item',
+            name='FriendRequest',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100)),
-                ('link', models.CharField(max_length=1000, null=True)),
-                ('price', models.CharField(max_length=20)),
-                ('is_removed', models.BooleanField(default=False)),
+                ('date', models.DateTimeField(auto_now_add=True)),
             ],
         ),
     ]

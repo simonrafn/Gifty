@@ -42,6 +42,8 @@ class User(AbstractUser):
     def __str__(self):
         return self.email
 
+
+
     """
     # get a queryset of the users on your friends list
     def get_friends(self):

@@ -17,6 +17,7 @@ class FriendRequest(models.Model):
         on_delete=models.CASCADE,
         related_name='received_friend_requests'
     )
+    date = models.DateTimeField(auto_now_add=True)
 
 
 # returns a queryset containing the users on the user friends list
@@ -29,14 +30,21 @@ def get_friend_requests(user):
     return user.received_friend_requests.all()
 
 
-# create a friend request directed at receiver,
-# add receiver to sender's friends list if receiver has already sent sender a friend request
+# Sends a friend request to another user,
+# or accepts his request if he's already sent you one,
+# does not send a friend request if you've already sent one to that user,
+# or if they are already friends
 def send_friend_request(sender, receiver):
-    try:
-        sender.received_friend_requests.get(sender__pk=receiver.pk)
+    are_friends = sender.friends.filter(pk=receiver.pk)
+    receiver_already_sent_friend_request_to_sender = sender.received_friend_requests.filter(sender__pk=receiver.pk)
+    friend_request_to_receiver = sender.sent_friend_requests.filter(receiver__pk=receiver.pk)
+
+    if are_friends:
+        return
+    elif receiver_already_sent_friend_request_to_sender:
         accept_friend_request(sender, receiver)
-    except ObjectDoesNotExist:
-        FriendRequest.object.create(sender=sender, receiver=receiver)
+    elif not friend_request_to_receiver:
+        FriendRequest.objects.create(sender=sender, receiver=receiver)
 
 
 # If accepted has sent acceptor a friend request, add accepted to acceptor friends list
@@ -49,14 +57,14 @@ def accept_friend_request(acceptor, accepted):
         logging.exception("User attempted to accept a friend request that didn't exist")
 
 
-# Remove a friend request sent from declined to decliner, if it exists
+# Delete a friend request sent from declined to decliner, if it exists
 def decline_friend_request(decliner, declined):
     try:
-        decliner.received_friend_requests.get(sender__pk=declined.pk).remove()
+        decliner.received_friend_requests.get(sender__pk=declined.pk).delete()
     except ObjectDoesNotExist:
         logging.exception("User attempted to decline a friend request that didn't exist")
 
 
-# remove removed from remover friends list (remover will also be removed from removed friends list)
+# The users are removed from each others friends lists
 def remove_friend(remover, removed):
     remover.friends.remove(removed)
