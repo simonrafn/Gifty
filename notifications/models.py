@@ -40,6 +40,16 @@ def delete_notification(notification):
     notification.detele()
 
 
+# deletes a notification related to an id
+def delete_notification_by_id(notification_id):
+    Notification.objects.get(pk=notification_id).delete()
+
+
 # sets the notification as seen by the user that it's directed at
 def set_notification_as_seen(notification):
     notification.is_seen = True
+
+
+# gets a notification related to an id
+def get_notification(notification_id):
+    return Notification.objects.get(pk=notification_id)
