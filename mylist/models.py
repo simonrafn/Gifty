@@ -30,9 +30,9 @@ class Item(models.Model):
             self.price = price
 
 
-# get a users item list
+# get all items from a users item list, which he hasn't 'removed'
 def get_item_list(user):
-    return user.items.all()
+    return user.items.filter(is_removed=False)
 
 
 # add an item to a users item list
@@ -40,9 +40,10 @@ def add_item_to_list(user, item):
     user.items.add(item)
 
 
-# remove an item from a users item list
-def remove_item_from_list(user, item):
-    user.items.remove(item)
+# mark an item as removed form a users list
+def remove_item_from_list(item):
+    # user.items.remove(item)
+    item.is_removed = True
 
 
 # change the name, link, or price of an item
