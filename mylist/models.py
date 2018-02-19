@@ -6,7 +6,7 @@ from django.conf import settings
 
 class Item(models.Model):
     name = models.CharField(max_length=100)
-    link = models.CharField(max_length=1000, null=True)
+    link = models.CharField(max_length=1000, blank=True)
     price = models.CharField(max_length=20)
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -20,6 +20,9 @@ class Item(models.Model):
         on_delete=models.CASCADE,
         related_name='reservations'
     )
+
+    def __str__(self):
+        return self.name
 
     def edit(self, name=None, link=None, price=None):
         if name is not None:

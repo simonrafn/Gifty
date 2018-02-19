@@ -9,6 +9,8 @@ class User(AbstractUser):
     # username = models.CharField(max_length=100)
     friends = models.ManyToManyField('self')
 
+    profile_image = None  # should be some kind of image field
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
 

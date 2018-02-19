@@ -3,6 +3,8 @@ from django.conf import settings
 import logging
 from django.db.models.base import ObjectDoesNotExist
 
+logger = logging.getLogger(__name__)
+
 
 # Create your models here.
 
@@ -54,7 +56,7 @@ def accept_friend_request(acceptor, accepted):
         acceptor.received_friend_requests.get(sender__pk=accepted.pk).delete()
         acceptor.friends.add(accepted)
     except ObjectDoesNotExist:
-        logging.exception("User attempted to accept a friend request that didn't exist")
+        logger.exception("User attempted to accept a friend request that didn't exist")
 
 
 # Delete a friend request sent from declined to decliner, if it exists
@@ -62,7 +64,7 @@ def decline_friend_request(decliner, declined):
     try:
         decliner.received_friend_requests.get(sender__pk=declined.pk).delete()
     except ObjectDoesNotExist:
-        logging.exception("User attempted to decline a friend request that didn't exist")
+        logger.exception("User attempted to decline a friend request that didn't exist")
 
 
 # The users are removed from each others friends lists

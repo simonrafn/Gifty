@@ -1,24 +1,50 @@
 from django.db import models
 from django.conf import settings
+from mylist.models import Item
+from django.db.models.base import ObjectDoesNotExist
+
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 # Create your models here.
 
 class Comment(models.Model):
-    item = models.ForeignKey('mylist.Item', on_delete=models.CASCADE)
-    commenter = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    item = models.ForeignKey(
+        'mylist.Item',
+        on_delete=models.CASCADE,
+        related_name='comments'
+    )
+    commenter = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='comments_made'
+    )
     message = models.CharField(max_length=5000)
     date = models.DateTimeField(auto_now_add=True)
     visible_to_owner = models.BooleanField()
     is_deleted = models.BooleanField(default=False)
 
+    def __str__(self):
+        return self.message
+
 
 # marks a comment as 'deleted'
 def delete_comment(comment):
-    comment.is_deleted = True
+    Comment.objects.filter(pk=comment.pk).update(is_deleted=True)
 
 
 # adds a comment to an items comment thread
 # it's date is set as the current date
 def add_comment(item, commenter, message, visible_to_owner):
-    item.
+    try:
+        Comment.objects.create(
+            item=item,
+            commenter=commenter,
+            message=message,
+            visible_to_owner=visible_to_owner
+        )
+        # item = Item.objects.get(pk=item.pk)
+    except ObjectDoesNotExist:
+        pass

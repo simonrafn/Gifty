@@ -15,8 +15,12 @@ class Notification(models.Model):
     message = models.CharField(max_length=1000)
     date = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.message
+
     def set_as_seen(self):
         self.is_seen = True
+        self.save()
 
 
 # get all notifications directed at a user, that he hasn't seen
@@ -48,6 +52,7 @@ def delete_notification_by_id(notification_id):
 # sets the notification as seen by the user that it's directed at
 def set_notification_as_seen(notification):
     notification.is_seen = True
+    notification.save()
 
 
 # gets a notification related to an id
