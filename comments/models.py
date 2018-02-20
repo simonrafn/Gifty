@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from mylist.models import Item
 from django.db.models.base import ObjectDoesNotExist
+from django.db import IntegrityError
 
 import logging
 
@@ -45,6 +46,5 @@ def add_comment(item, commenter, message, visible_to_owner):
             message=message,
             visible_to_owner=visible_to_owner
         )
-        # item = Item.objects.get(pk=item.pk)
-    except ObjectDoesNotExist:
-        pass
+    except IntegrityError:
+        logger.exception("There was an attempt to create a comment where either the item, or the commenter don't exist.")
