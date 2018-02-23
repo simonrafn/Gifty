@@ -12,5 +12,6 @@ db.sqlite3
 /static
 .DS_Store
 
+# other
 todo-*
 delete-database.ps1

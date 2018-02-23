@@ -31,16 +31,23 @@ class Item(models.Model):
             self.link = link
         if price is not None:
             self.price = price
+        self.save()
 
 
 # get all items from a users item list, which he hasn't 'removed'
 def get_item_list(user):
-    return user.items.filter(is_removed=False)
+    return user.items.filter(is_removed=False).order_by('-pk')
+
+
+"""
+# seems to bee an unnecessary method, since when creating the item it is automatically added to the owners list
+# might be used to add already created items to other peoples lists (if they want to copy)
 
 
 # add an item to a users item list
 def add_item_to_list(user, item):
     user.items.add(item)
+"""
 
 
 # mark an item as removed form a users list

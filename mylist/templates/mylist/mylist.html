@@ -1,17 +1,46 @@
 {% extends 'base.html' %}
 
-{% block title %}My list{% endblock %}
 
 {% block content %}
+
+<h1>My Items</h1>
+
+<a href="{% url 'mylist:add_item' %}"><button class="btn btn-default">New item</button></a>
+
+<ul>
+  {% for item in item_list %}
+    <p><li>
+      {% if item.link %} <a href="//{{ item.link|cut:'http://'|cut:'https://' }}">{{ item.name }}</a>
+      {% else %} {{ item.name }}
+      {% endif %}
+
+       - {{ item.price }}
+
+      {% if item.reserver %} {{ item.reserver }} {% endif %}
+
+      - <a href="{% url 'mylist:edit_item' item_pk=item.pk %}"><button class="btn btn-default">Edit</button></a>
+
+    </li></p>
+  {% empty %}
+    <li>You have no items.</li>
+  {% endfor %}
+</ul>
+
+
+{% comment %}
 <div>
     <h1>My List</h1>
     <div id="list_container">
         this is the list container
     </div>
     <form>
-      <input type="text" placeholder="Item Name" class="form-control"><input type="text" placeholder="Item Cost" class="form-control"><br>
-      <input type="text" placeholder="Item Link" class="form-control"><input  type="submit" value="Submit" class="btn btn-info form-control">
+      <input type="text" placeholder="Item Name" class="form-control"><br>
+      <input type="text" placeholder="Item Cost" class="form-control"><br>
+      <input type="text" placeholder="Item Link" class="form-control"><br>
+      <input type="submit" value="Submit" class="btn btn-info form-control">
 
     </form>
 </div>
+{% endcomment %}
+
 {% endblock %}
