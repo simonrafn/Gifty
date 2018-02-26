@@ -5,12 +5,12 @@
 
 <h1>My Items</h1>
 
-<a href="{% url 'mylist:add_item' %}"><button class="btn btn-default">New item</button></a>
+<a href="{% url 'mylist:add_item' %}"><button class="btn btn-primary">New item</button></a>
 
 <ul>
   {% for item in item_list %}
     <p><li>
-      {% if item.link %} <a href="//{{ item.link|cut:'http://'|cut:'https://' }}">{{ item.name }}</a>
+      {% if item.link %} <a href="//{{ item.link|cut:'http://'|cut:'https://' }}" target="_blank">{{ item.name }}</a>
       {% else %} {{ item.name }}
       {% endif %}
 
@@ -18,7 +18,9 @@
 
       {% if item.reserver %} {{ item.reserver }} {% endif %}
 
-      - <a href="{% url 'mylist:edit_item' item_pk=item.pk %}"><button class="btn btn-default">Edit</button></a>
+      - <a href="{% url 'mylist:edit_item' item_pk=item.pk %}"><button class="btn btn-success">Edit</button></a>
+
+      - <a href="{% url 'mylist:delete_item' item_pk=item.pk %}"><button class="btn btn-danger">Delete</button></a>
 
     </li></p>
   {% empty %}
