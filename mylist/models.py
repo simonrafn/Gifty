@@ -37,13 +37,6 @@ def remove_item_from_list(item):
     item.save(update_fields=['is_removed'])
 
 
-# get an item by its id/pk
-# returns None if the item doesn't exist
-def get_item(item_id):
-    item_results = Item.objects.filter(pk=item_id)
-    return item_results.get(pk=item_id) if item_results else None
-
-
 # mark an item as reserved by the user
 def reserve_item(user, item):
     item.reserver = user

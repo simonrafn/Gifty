@@ -20,7 +20,7 @@
 
       - <a href="{% url 'mylist:edit_item' item_pk=item.pk %}"><button class="btn btn-success">Edit</button></a>
 
-      - <a href="{% url 'mylist:delete_item' item_pk=item.pk %}"><button class="btn btn-danger">Delete</button></a>
+      <a href="{% url 'mylist:delete_item' item_pk=item.pk %}"><button class="btn btn-danger">Delete</button></a>
 
     </li></p>
   {% empty %}

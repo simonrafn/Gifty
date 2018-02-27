@@ -9,6 +9,7 @@ from .models import Item
 from .models import get_item_list
 from .models import remove_item_from_list
 
+
 @login_required
 def my_list(request):
     item_list = get_item_list(request.user)
