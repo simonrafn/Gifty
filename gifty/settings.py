@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'customuser.apps.CustomuserConfig',
     'mylist.apps.MylistConfig',
     'notifications.apps.NotificationsConfig',
-    'django_extensions',
+    #'django_extensions',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
