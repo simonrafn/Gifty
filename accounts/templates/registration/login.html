@@ -3,13 +3,24 @@
 {% block title %}Gifty{% endblock %}
 
 {% block content %}
-  <h2>Login</h2>
+  <h4>Login</h4>
   <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Login</button>
-  </form>
+    <div id="form_container">
+    {% for field in form %}
+          <div class="fieldWrapper">
+              {{ field.label_tag }}
+              {{ field.errors }}
+              {{ field }}
+          </div>
+      {% endfor %}
+      <button type="submit" class="submit_button">Submit</button>
+    </div>
 
-  <h3>Or <a href="{% url 'accounts:signup' %}">Sign up</a></h3>
+  </form>
+  {% comment %}
+  <br>
+  <p>Or <a href="{% url 'accounts:signup' %}">Sign up</a></p>
+  {% endcomment %}
 
 {% endblock %}
