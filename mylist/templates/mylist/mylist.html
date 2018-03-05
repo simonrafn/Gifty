@@ -2,47 +2,85 @@
 
 
 {% block content %}
+<div id="mylist_container">
+    <h4>My List</h4>
 
-<h1>My Items</h1>
-
-<a href="{% url 'mylist:add_item' %}"><button class="btn btn-primary">New item</button></a>
-
-<ul>
-  {% for item in item_list %}
-    <p><li>
-      {% if item.link %} <a href="//{{ item.link|cut:'http://'|cut:'https://' }}" target="_blank">{{ item.name }}</a>
-      {% else %} {{ item.name }}
-      {% endif %}
-
-       - {{ item.price }}
-
-      {% if item.reserver %} {{ item.reserver }} {% endif %}
-
-      - <a href="{% url 'mylist:edit_item' item_pk=item.pk %}"><button class="btn btn-success">Edit</button></a>
-
-      <a href="{% url 'mylist:delete_item' item_pk=item.pk %}"><button class="btn btn-danger">Delete</button></a>
-
-    </li></p>
-  {% empty %}
-    <li>You have no items.</li>
-  {% endfor %}
-</ul>
-
-
-{% comment %}
-<div>
-    <h1>My List</h1>
-    <div id="list_container">
-        this is the list container
+    <a href="{% url 'mylist:add_item' %}" >
+        <button class="btn btn-sm btn-primary">
+            New item
+        </button>
+    </a><br>
+    <div class="row" style="margin-top:10px;">
+        <div class="col-xs-8" style="padding-left:25px;"><strong>Item:</strong></div>
+        <div class="col-xs-4"><strong>Price:</strong></div>
     </div>
-    <form>
-      <input type="text" placeholder="Item Name" class="form-control"><br>
-      <input type="text" placeholder="Item Cost" class="form-control"><br>
-      <input type="text" placeholder="Item Link" class="form-control"><br>
-      <input type="submit" value="Submit" class="btn btn-info form-control">
+    <div id="list_of_items" style="width:800px; border: 0.5px solid lightgray; border-radius: 5px; overflow: hidden; margin-top:0px;">
+        {% for item in item_list %}
+            <div class="row" style="line-height: 200%; ">
+                <div class='col-xs-8' style="height:30px; padding-left:25px">
+                    {% if item.link %} <a href="//{{ item.link|cut:'http://'|cut:'https://' }}" target="_blank">{{ item.name }}</a>
+                        {% else %} {{ item.name }}
+                    {% endif %}
+                </div>
+                <div class='col-xs-2' style="height:30px; border-left: 0.5px solid lightgray;">
+                    {{ item.price }}
+                </div>
+                <div class='col-xs-2' style="height:30px;border-left: 0.5px solid lightgray; text-align:center; padding-left:0px">
+                    <a href="" >
+                        <button class="btn btn-xs btn-primary" style="vertical-align: 2px;">
+                            <span class="glyphicon glyphicon-comment" style="vertical-align: -2px;"></span>
+                        </button>
+                    </a>
+                    <a href="{% url 'mylist:edit_item' item_pk=item.pk %}" style="vertical-align: 2px;">
+                        <button class="btn btn-xs btn-success" >
+                            <span class="glyphicon glyphicon-pencil" style="vertical-align: -2px;"></span>
+                        </button>
+                    </a>
+                    <a href="{% url 'mylist:delete_item' item_pk=item.pk %}" style="vertical-align: 2px;" >
+                        <button class="btn btn-xs btn-danger" >
+                            <span class="glyphicon glyphicon-trash" style="vertical-align: -2px; "></span>
+                        </button>
+                    </a>
+                </div>
 
-    </form>
+            </div>
+            {% empty %}
+                <span>You have no items.</span>
+        {% endfor %}
+    </div>
+    <style type="text/css">
+        .row+.row { border-top: 0.5px solid lightgray; }
+        #mylist_container{
+            width:800px;
+            margin: 0 auto;
+        }
+    </style>
+
+    {% comment %}
+    <ul>
+      {% for item in item_list %}
+        <li>
+          {% if item.link %} <a href="//{{ item.link|cut:'http://'|cut:'https://' }}" target="_blank">{{ item.name }}</a>
+          {% else %} {{ item.name }}
+          {% endif %}
+
+           - {{ item.price }}
+
+          {% if item.reserver %} {{ item.reserver }} {% endif %}
+
+          - <a href=""><button class="btn btn-xs btn-primary">Comments</button></a>
+            <a href="{% url 'mylist:edit_item' item_pk=item.pk %}"><button class="btn btn-xs btn-success">Edit</button></a>
+
+          <a href="{% url 'mylist:delete_item' item_pk=item.pk %}"><button class="btn btn-xs btn-danger">Delete</button></a>
+
+        </li>
+      {% empty %}
+        <li>You have no items.</li>
+      {% endfor %}
+    </ul>
+
+    {% endcomment %}
 </div>
-{% endcomment %}
+
 
 {% endblock %}

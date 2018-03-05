@@ -3,10 +3,30 @@
 {% block title %}Sign Up{% endblock %}
 
 {% block content %}
-  <h2>Sign up</h2>
+  <h4>Sign up</h4>
   <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Sign up</button>
+    <div id="form_container">
+    {% for field in form %}
+          <div class="outerFieldWrapper">
+            <div class="innerFieldWrapper">
+              {{ field.label_tag }}
+              {% for error in field.errors %}
+                {{ error }}
+              {% endfor %}
+              {{ field }}
+            </div>
+            {% if field.help_text %}
+            <small class="help">{{ field.help_text|safe }}</small>
+              {% endif %}
+
+          </div>
+    {% endfor %}
+      <button type="submit" class="submit_button">Submit</button>
+    </div>
   </form>
+  <script>
+    var labels = document.getElementsByTagName("label");
+    labels[labels.length-1].innerHTML = "Password:";
+  </script>
 {% endblock %}
