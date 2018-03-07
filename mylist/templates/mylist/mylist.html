@@ -19,14 +19,14 @@
             <div class="row" style="line-height: 200%; ">
                 <div class='col-xs-8' style="height:30px; padding-left:25px">
                     {% if item.link %} <a href="//{{ item.link|cut:'http://'|cut:'https://' }}" target="_blank">{{ item.name }}</a>
-                        {% else %} {{ item.name }}
+                    {% else %} {{ item.name }}
                     {% endif %}
                 </div>
                 <div class='col-xs-2' style="height:30px; border-left: 0.5px solid lightgray;">
                     {{ item.price }}
                 </div>
                 <div class='col-xs-2' style="height:30px;border-left: 0.5px solid lightgray; text-align:center; padding-left:0px">
-                    <a href="" >
+                    <a href="{% url 'comments:view_comments' item_pk=item.pk %}" >
                         <button class="btn btn-xs btn-primary" style="vertical-align: 2px;">
                             <span class="glyphicon glyphicon-comment" style="vertical-align: -2px;"></span>
                         </button>
@@ -48,6 +48,7 @@
                 <span>You have no items.</span>
         {% endfor %}
     </div>
+
     <style type="text/css">
         .row+.row { border-top: 0.5px solid lightgray; }
         #mylist_container{
@@ -55,31 +56,6 @@
             margin: 0 auto;
         }
     </style>
-
-    {% comment %}
-    <ul>
-      {% for item in item_list %}
-        <li>
-          {% if item.link %} <a href="//{{ item.link|cut:'http://'|cut:'https://' }}" target="_blank">{{ item.name }}</a>
-          {% else %} {{ item.name }}
-          {% endif %}
-
-           - {{ item.price }}
-
-          {% if item.reserver %} {{ item.reserver }} {% endif %}
-
-          - <a href=""><button class="btn btn-xs btn-primary">Comments</button></a>
-            <a href="{% url 'mylist:edit_item' item_pk=item.pk %}"><button class="btn btn-xs btn-success">Edit</button></a>
-
-          <a href="{% url 'mylist:delete_item' item_pk=item.pk %}"><button class="btn btn-xs btn-danger">Delete</button></a>
-
-        </li>
-      {% empty %}
-        <li>You have no items.</li>
-      {% endfor %}
-    </ul>
-
-    {% endcomment %}
 </div>
 
 
