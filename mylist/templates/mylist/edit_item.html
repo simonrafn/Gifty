@@ -1,11 +1,25 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<h4>Edit Item</h4>
 
 <form method="POST">
   {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit" class="btn btn-primary">Change</button>
+  <div id="form_container">
+    {% for field in form %}
+          <div class="fieldWrapper">
+              {{ field.label_tag }}
+              {{ field.errors }}
+              {{ field }}
+          </div>
+      {% endfor %}
+    <button type="submit" class="submit_button">Submit</button>
+  </div>
+
+
 </form>
+<style type="text/css">
+
+</style>
 
 {% endblock %}
