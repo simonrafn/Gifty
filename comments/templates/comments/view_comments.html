@@ -3,6 +3,7 @@
 {% block content %}
 
 <div class="container">
+
   <div class="row" id="item_info_wrapper">
     <div class="col-sm-4">
       <h2>Name: {{ item.name }}</h2>
@@ -18,58 +19,68 @@
   </div>
 
   <div class="row" id="comments_wrapper">
+
     <div class="col-sm-6" id="comments_visible_to_item_owner_wrapper">
       <h3>Comments visible to owner</h3><br>
-        {% for comment in comments_visible_to_item_owner %}
+      {% for comment in comments_visible_to_item_owner %}
 
-          <div class="row" id="comment_{{ comment.pk }}">
-            <div class="col-sm-12">
-              <b>{{ comment.commenter }} - {{ comment.date|date:"jS N G:i" }}</b><br>
-              {{ comment.message }}
-            </div>
-          </div>
-
-        {% endfor %}
-        <br>
-
-        <div class="row" id="submit_new_comment_visible_to_item_owner">
-          <div class="col-sm-12">
-            <form method="POST" action="{% url 'comments:add_comment' item_pk=item.pk visible_to_item_owner=1 %}">
-              {% csrf_token %}
-              {{ form.as_p }}
-              <button type="submit" class="btn btn-primary">Comment</button>
-            </form>
-          </div>
+      <div class="row" id="comment_{{ comment.pk }}">
+        <div class="col-sm-12">
+          <b>{{ comment.commenter }} - {{ comment.date|date:"jS N G:i" }}</b><br>
+          {{ comment.message }}
         </div>
-    </div>
+      </div>
 
-    <div class="col-sm-6" id="comments_not_visible_to_item_owner_wrapper">
-      <h3>Comments NOT visible to owner</h3><br>
-      <div class="row">
-        {% for comment in comments_not_visible_to_item_owner %}
+      {% empty %}
+      <p>Nothing to see here.</p>
+      {% endfor %}
+      <br>
 
-          <div class="row" id="comment_{{ comment.id }}">
-            <div class="col-sm-12">
-              <b>{{ comment.commenter }} - {{ comment.date|date:"jS N G:i" }}</b><br>
-              {{ comment.message }}
-            </div>
-          </div>
-
-        {% endfor %}
-        <br>
-
-        <div class="row" id="submit_new_comment_not_visible_to_item_owner">
-          <div class="col-sm-12">
-            <form method="POST" action="{% url 'comments:add_comment' item_pk=item.pk visible_to_item_owner=0 %}">
-              {% csrf_token %}
-              {{ form.as_p }}
-              <button type="submit" class="btn btn-primary">Comment</button>
-            </form>
-          </div>
+      <div class="row" id="submit_new_comment_visible_to_item_owner">
+        <div class="col-sm-12">
+          <form method="POST" action="{% url 'comments:add_comment' item_pk=item.pk visible_to_item_owner=1 %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Comment</button>
+          </form>
         </div>
       </div>
     </div>
+
+
+    {% if user != item.owner %}
+
+    <div class="col-sm-6" id="comments_not_visible_to_item_owner_wrapper">
+      <h3>Comments NOT visible to owner</h3><br>
+      {% for comment in comments_not_visible_to_item_owner %}
+
+      <div class="row" id="comment_{{ comment.id }}">
+        <div class="col-sm-12">
+          <b>{{ comment.commenter }} - {{ comment.date|date:"jS N G:i" }}</b><br>
+          {{ comment.message }}
+        </div>
+      </div>
+
+      {% empty %}
+      <p>Nothing to see here.</p>
+      {% endfor %}
+      <br>
+
+      <div class="row" id="submit_new_comment_not_visible_to_item_owner">
+        <div class="col-sm-12">
+          <form method="POST" action="{% url 'comments:add_comment' item_pk=item.pk visible_to_item_owner=0 %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Comment</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    {% endif %}
+
   </div>
+
 </div>
 
 {% endblock %}
