@@ -1,8 +1,6 @@
-from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.shortcuts import get_object_or_404
 
 from .forms import ItemForm
 from .models import Item
@@ -44,13 +42,13 @@ def edit_item(request, item_pk):
             form = ItemForm(instance=item)
             return render(request, 'mylist/edit_item.html', {'form': form})
         elif request.method == 'POST':
-            success_message = 'The item was changed.'
-            error_message = 'There was an error. The item was not changed.'
             form = ItemForm(request.POST, instance=item)
             if form.is_valid():
+                success_message = 'The item was changed.'
                 form.save()
                 messages.success(request, success_message)
             else:
+                error_message = 'There was an error. The item was not changed.'
                 messages.error(request, error_message)
             return redirect(to='mylist:mylist')
     else:

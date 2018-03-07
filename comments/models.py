@@ -33,7 +33,9 @@ class Comment(models.Model):
 
 # marks a comment as 'deleted'
 def delete_comment(comment):
-    Comment.objects.filter(pk=comment.pk).update(is_deleted=True)
+    comment.is_deleted = True
+    comment.save(update_fields=['is_deleted'])
+    # Comment.objects.filter(pk=comment.pk).update(is_deleted=True)
 
 
 # adds a comment to an items comment thread
@@ -47,4 +49,4 @@ def add_comment(item, commenter, message, visible_to_owner):
             visible_to_owner=visible_to_owner
         )
     except IntegrityError:
-        logger.exception("There was an attempt to create a comment where either the item, or the commenter don't exist.")
+        logger.exception("Attempted to create a comment where either the item, or the commenter don't exist.")
