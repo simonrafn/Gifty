@@ -20,7 +20,7 @@
                 {% if user.is_authenticated %}
                     <a href="/" class="navbar_button">My List</a>
                     <a href="" class="navbar_button">Reservations</a>
-                    <a href="" class="navbar_button">Contacts</a>
+                    <a href="{% url 'contacts:contacts' %}" class="navbar_button">Contacts</a>
                     <a href="" class="navbar_button">Notifications</a>
                     <a href="" class="navbar_button">Settings</a>
                     <a href="{% url 'logout' %}" class="navbar_button">Log Out</a>
