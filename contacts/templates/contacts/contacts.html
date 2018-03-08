@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h4>Contacts</h4>
+
+{% if msg %}
+<p>{{ msg }}</p>
+{% endif %}
+
+{% if friend_requests %}
+    <p>Friend Requests:</p>
+    {% for friend_request in friend_requests %}
+        <p>
+            {{ friend_request.sender.username }}
+            <a href="{% url 'contacts:accept_friend_request_view' user_pk=friend_request.sender.pk %}" >
+                <button class="btn btn-xs btn-primary" >
+                    Accept
+                </button>
+            </a>
+            <a href="{% url 'contacts:decline_friend_request_view' user_pk=friend_request.sender.pk %}"  >
+                <button class="btn btn-xs btn-danger" >
+                    Decline
+                </button>
+            </a>
+        </p>
+
+    {% endfor %}
+
+{% endif %}
+
+{% if contacts %}
+    <p>Contacts:</p>
+    {% for contact in contacts %}
+        <p>
+            {{ contact.username }}
+            <a href="{% url 'contacts:remove_contact' user_pk=contact.pk %}"  >
+                <button class="btn btn-xs btn-danger" >
+                    Remove
+                </button>
+            </a>
+        </p>
+
+    {% endfor %}
+
+{% endif %}
+
+
+{% endblock %}
