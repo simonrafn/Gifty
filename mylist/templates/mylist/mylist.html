@@ -5,7 +5,7 @@
 <div id="mylist_container">
     <h4>My List</h4>
 
-    <a href="{% url 'mylist:add_item' %}" >
+    <a href="{% url 'mylist:add_item' username=user.username %}" >
         <button class="btn btn-sm btn-primary">
             New item
         </button>
@@ -31,12 +31,12 @@
                             <span class="glyphicon glyphicon-comment" style="vertical-align: -2px;"></span>
                         </button>
                     </a>
-                    <a href="{% url 'mylist:edit_item' item_pk=item.pk %}" style="vertical-align: 2px;">
+                    <a href="{% url 'mylist:edit_item' username=user.username item_pk=item.pk %}" style="vertical-align: 2px;">
                         <button class="btn btn-xs btn-success" >
                             <span class="glyphicon glyphicon-pencil" style="vertical-align: -2px;"></span>
                         </button>
                     </a>
-                    <a href="{% url 'mylist:delete_item' item_pk=item.pk %}" style="vertical-align: 2px;" >
+                    <a href="{% url 'mylist:delete_item' username=user.username item_pk=item.pk %}" style="vertical-align: 2px;" >
                         <button class="btn btn-xs btn-danger" >
                             <span class="glyphicon glyphicon-trash" style="vertical-align: -2px; "></span>
                         </button>
@@ -45,7 +45,7 @@
 
             </div>
             {% empty %}
-                <span>You have no items.</span>
+                <span style="line-height: 200%; padding-left:10px;">You have not added any items.</span>
         {% endfor %}
     </div>
 

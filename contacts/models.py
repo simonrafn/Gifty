@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 import logging
 from django.db.models.base import ObjectDoesNotExist
+from customuser.models import User
 
 logger = logging.getLogger(__name__)
 
@@ -32,16 +33,20 @@ def get_friend_requests(user):
     return user.received_friend_requests.all()
 
 
+def search_users(search_string):
+    return User.objects.filter(name__unaccent__icontains=search_string)
+
+
 # Sends a friend request to another user,
 # or accepts his request if he's already sent you one,
 # does not send a friend request if you've already sent one to that user,
 # or if they are already friends
 def send_friend_request(sender, receiver):
-    are_friends = sender.friends.filter(pk=receiver.pk)
+    # are_friends = sender.friends.filter(pk=receiver.pk)
     receiver_already_sent_friend_request_to_sender = sender.received_friend_requests.filter(sender__pk=receiver.pk)
     sender_already_sent_friend_request_to_receiver = sender.sent_friend_requests.filter(receiver__pk=receiver.pk)
 
-    if are_friends:
+    if are_friends(sender, receiver):
         return
     elif receiver_already_sent_friend_request_to_sender:
         accept_friend_request(sender, receiver)
@@ -70,3 +75,12 @@ def decline_friend_request(decliner, declined):
 # The users are removed from each others friends lists
 def remove_friend(remover, removed):
     remover.friends.remove(removed)
+
+
+# Returns true if "user1" is friends with "user2", false otherwise.
+def are_friends(user1, user2):
+    result = user1.friends.filter(pk=user2.pk)
+    if result:
+        return True
+    else:
+        return False

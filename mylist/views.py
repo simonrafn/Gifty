@@ -6,16 +6,41 @@ from .forms import ItemForm
 from .models import Item
 from .models import get_item_list
 from .models import remove_item_from_list
+from customuser.models import User
+from contacts.models import are_friends
 
 
 @login_required
-def my_list(request):
-    item_list = get_item_list(request.user)
-    return render(request, 'mylist/mylist.html', {'item_list': item_list})
+def index(request):
+    username = request.user.username
+    return redirect(to='/list/'+username)
 
 
 @login_required
-def add_item(request):
+def my_list(request, username):
+    if request.user.username is username:
+        item_list = get_item_list(request.user)
+        return render(request, 'mylist/mylist.html', {'item_list': item_list})
+    else:
+        contact = get_object_or_404(User, username__iexact=username)
+        if are_friends(request.user, contact):
+            item_list = get_item_list(contact)
+            return render(request, 'mylist/otherlist.html', {'item_list': item_list,
+                                                             'are_friends': are_friends(request.user, contact),
+                                                             'contact': contact, })
+        else:
+            has_received = request.user.received_friend_requests.filter(sender__pk=contact.pk)
+            has_sent = request.user.sent_friend_requests.filter(receiver__pk=contact.pk)
+            return render(request, 'mylist/otherlist.html', {'are_friends': are_friends(request.user, contact),
+                                                             'contact': contact,
+                                                             'has_received': has_received,
+                                                             'has_sent': has_sent, })
+
+
+
+
+@login_required
+def add_item(request, username):
     if request.method == 'GET':
         form = ItemForm()
         return render(request, 'mylist/add_item.html', {'form': form})
@@ -31,11 +56,11 @@ def add_item(request):
         else:
             messages.error(request, error_message)
 
-        return redirect(to='mylist:mylist')
+        return redirect(to='mylist:mylist', username=username)
 
 
 @login_required
-def edit_item(request, item_pk):
+def edit_item(request, username, item_pk):
     item = get_object_or_404(Item, pk=item_pk)
     if item.owner == request.user:
         if request.method == 'GET':
@@ -58,7 +83,7 @@ def edit_item(request, item_pk):
 
 
 @login_required
-def delete_item(request, item_pk):
+def delete_item(request, username, item_pk):
     item = get_object_or_404(Item, pk=item_pk)
     if item.owner == request.user:
         success_message = 'The item was deleted.'
