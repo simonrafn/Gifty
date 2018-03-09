@@ -33,7 +33,10 @@
     <p>Contacts:</p>
     {% for contact in contacts %}
         <p>
-            {{ contact.username }}
+
+            <a href="{% url 'mylist:mylist' username=contact.username %}"  >
+                {{ contact.username }}
+            </a>
             <a href="{% url 'contacts:remove_contact' user_pk=contact.pk %}"  >
                 <button class="btn btn-xs btn-danger" >
                     Remove

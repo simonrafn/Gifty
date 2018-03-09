@@ -3,83 +3,100 @@
 
 {% block content %}
 <div id="mylist_container">
-    <h4>My List</h4>
+    <h4>{{contact.username}}'s List</h4>
 
-    <a href="{% url 'mylist:add_item' %}" >
-        <button class="btn btn-sm btn-primary">
-            New item
-        </button>
-    </a><br>
-    <div class="row" style="margin-top:10px;">
-        <div class="col-xs-8" style="padding-left:25px;"><strong>Item:</strong></div>
-        <div class="col-xs-4"><strong>Price:</strong></div>
-    </div>
-    <div id="list_of_items" style="width:800px; border: 0.5px solid lightgray; border-radius: 5px; overflow: hidden; margin-top:0px;">
-        {% for item in item_list %}
-            <div class="row" style="line-height: 200%; ">
-                <div class='col-xs-8' style="height:30px; padding-left:25px">
-                    {% if item.link %} <a href="//{{ item.link|cut:'http://'|cut:'https://' }}" target="_blank">{{ item.name }}</a>
-                        {% else %} {{ item.name }}
-                    {% endif %}
+    <p>
+        {% if are_friends %}
+            <a href="{% url 'contacts:remove_contact' user_pk=contact.pk %}" >
+                <button class="btn btn-xs btn-danger" >
+                    Unfriend
+                </button>
+            </a>
+        {% elif has_sent %}
+            {{contact.username}} has not yet responded to your friend request.
+        {% elif has_received %}
+            {{contact.username}} has sent you a friend request.
+            <a href="{% url 'contacts:accept_friend_request_view' user_pk=contact.pk %}" >
+                <button class="btn btn-xs btn-primary" >
+                    Accept
+                </button>
+            </a>
+            <a href="{% url 'contacts:decline_friend_request_view' user_pk=contact.pk %}" >
+                <button class="btn btn-xs btn-danger" >
+                    Decline
+                </button>
+            </a>
+        {% else %}
+            <a href="{% url 'contacts:add_contact' user_pk=contact.pk %}" >
+                <button class="btn btn-xs btn-primary" >
+                    Add Contact
+                </button>
+            </a>
+            to see his/her item list.
+        {% endif %}
+    </p>
+    {% if item_list %}
+        <div class="row" style="margin-top:10px;">
+            <div class="col-xs-7" style="padding-left:25px;"><strong>Item:</strong></div>
+            <div class="col-xs-2"><strong>Price:</strong></div>
+            <div class="col-xs-3"><strong>Reserved by:</strong></div>
+        </div>
+        <div id="list_of_items" style="width:800px; border: 0.5px solid lightgray; border-radius: 5px; overflow: hidden; margin-top:0px;">
+            {% for item in item_list %}
+                <div class="row" style="line-height: 200%; ">
+                    <div class='col-xs-7' style="height:30px; padding-left:25px">
+                        {% if item.link %} <a href="//{{ item.link|cut:'http://'|cut:'https://' }}" target="_blank">{{ item.name }}</a>
+                            {% else %} {{ item.name }}
+                        {% endif %}
+                    </div>
+                    <div class='col-xs-2' style="height:30px; border-left: 0.5px solid lightgray;">
+                        {{ item.price }}
+                    </div>
+                    <div class='col-xs-2' style="height:30px;border-left: 0.5px solid lightgray; text-align:left; padding-left:15px">
+
+                        {% if item.reserver %}
+                            {% if item.reserver is user %}
+                                <a href="" >
+                                    <button class="btn btn-xs btn-danger" >
+                                        Unreserve
+                                    </button>
+                                </a>
+                            {% else %}
+                                Reserved by {{item.reserver}}
+                            {% endif %}
+
+                        {% else %}
+                            <a href="" >
+                                <button class="btn btn-xs btn-success" >
+                                    Reserve
+                                </button>
+                            </a>
+                        {% endif %}
+
+                    </div>
+                    <div class='col-xs-1' style="height:30px;border-left: 0.5px solid lightgray; text-align:center; padding-left:0px">
+                        <a href="" >
+                            <button class="btn btn-xs btn-primary" style="vertical-align: 2px;">
+                                <span class="glyphicon glyphicon-comment" style="vertical-align: -2px;"></span>
+                            </button>
+                        </a>
+                    </div>
+
                 </div>
-                <div class='col-xs-2' style="height:30px; border-left: 0.5px solid lightgray;">
-                    {{ item.price }}
-                </div>
-                <div class='col-xs-2' style="height:30px;border-left: 0.5px solid lightgray; text-align:center; padding-left:0px">
-                    <a href="" >
-                        <button class="btn btn-xs btn-primary" style="vertical-align: 2px;">
-                            <span class="glyphicon glyphicon-comment" style="vertical-align: -2px;"></span>
-                        </button>
-                    </a>
-                    <a href="{% url 'mylist:edit_item' item_pk=item.pk %}" style="vertical-align: 2px;">
-                        <button class="btn btn-xs btn-success" >
-                            <span class="glyphicon glyphicon-pencil" style="vertical-align: -2px;"></span>
-                        </button>
-                    </a>
-                    <a href="{% url 'mylist:delete_item' item_pk=item.pk %}" style="vertical-align: 2px;" >
-                        <button class="btn btn-xs btn-danger" >
-                            <span class="glyphicon glyphicon-trash" style="vertical-align: -2px; "></span>
-                        </button>
-                    </a>
-                </div>
-
-            </div>
-            {% empty %}
-                <span style="line-height: 200%; padding-left:10px;">You have not added any items.</span>
-        {% endfor %}
-    </div>
-    <style type="text/css">
-        .row+.row { border-top: 0.5px solid lightgray; }
-        #mylist_container{
-            width:800px;
-            margin: 0 auto;
-        }
-    </style>
-
-    {% comment %}
-    <ul>
-      {% for item in item_list %}
-        <li>
-          {% if item.link %} <a href="//{{ item.link|cut:'http://'|cut:'https://' }}" target="_blank">{{ item.name }}</a>
-          {% else %} {{ item.name }}
-          {% endif %}
-
-           - {{ item.price }}
-
-          {% if item.reserver %} {{ item.reserver }} {% endif %}
-
-          - <a href=""><button class="btn btn-xs btn-primary">Comments</button></a>
-            <a href="{% url 'mylist:edit_item' item_pk=item.pk %}"><button class="btn btn-xs btn-success">Edit</button></a>
-
-          <a href="{% url 'mylist:delete_item' item_pk=item.pk %}"><button class="btn btn-xs btn-danger">Delete</button></a>
-
-        </li>
-      {% empty %}
-        <li>You have no items.</li>
-      {% endfor %}
-    </ul>
-
-    {% endcomment %}
+            {% endfor %}
+        </div>
+        <style type="text/css">
+            .row+.row { border-top: 0.5px solid lightgray; }
+            #mylist_container{
+                width:800px;
+                margin: 0 auto;
+            }
+        </style>
+    {% else %}
+        <p>
+            {{contact.username}} has not added any items to his/her list.
+        </p>
+    {% endif %}
 </div>
 
 
