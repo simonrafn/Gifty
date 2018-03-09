@@ -1,7 +1,5 @@
 from django.db import models
 from django.conf import settings
-from mylist.models import Item
-from django.db.models.base import ObjectDoesNotExist
 from django.db import IntegrityError
 
 import logging
