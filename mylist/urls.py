@@ -4,7 +4,7 @@ from django.views.generic import RedirectView
 
 app_name = 'mylist'
 urlpatterns = [
-    -path('<username>', views.my_list, name='mylist'),
+    path('<username>', views.my_list, name='mylist'),
     path('<username>/add/', views.add_item, name='add_item'),
     path('<username>/item=<int:item_pk>/edit/', views.edit_item, name='edit_item'),
     path('<username>/item=<int:item_pk>/delete/', views.delete_item, name='delete_item'),
