@@ -45,8 +45,9 @@
             {% for item in item_list %}
                 <div class="row" style="line-height: 200%; ">
                     <div class='col-xs-7' style="height:30px; padding-left:25px">
-                        {% if item.link %} <a href="//{{ item.link|cut:'http://'|cut:'https://' }}" target="_blank">{{ item.name }}</a>
-                            {% else %} {{ item.name }}
+                        {% if item.link %}
+                            <a href="//{{ item.link|cut:'http://'|cut:'https://' }}" target="_blank">{{ item.name }}</a>
+                        {% else %} {{ item.name }}
                         {% endif %}
                     </div>
                     <div class='col-xs-2' style="height:30px; border-left: 0.5px solid lightgray;">
@@ -75,7 +76,7 @@
 
                     </div>
                     <div class='col-xs-1' style="height:30px;border-left: 0.5px solid lightgray; text-align:center; padding-left:0px">
-                        <a href="" >
+                        <a href="{% url 'comments:view_comments' item_pk=item.pk %}" >
                             <button class="btn btn-xs btn-primary" style="vertical-align: 2px;">
                                 <span class="glyphicon glyphicon-comment" style="vertical-align: -2px;"></span>
                             </button>

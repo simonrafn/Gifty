@@ -10,15 +10,18 @@ from customuser.models import User
 from contacts.models import are_friends
 
 
+"""
 @login_required
 def index(request):
     username = request.user.username
-    return redirect(to='/list/'+username)
+    # return redirect(to='/list/'+username)
+    return redirect(to='mylist:mylist', username=username)
+"""
 
 
 @login_required
-def my_list(request, username):
-    if request.user.username is username:
+def my_list(request, username=None):
+    if username == request.user.username or username is None:
         item_list = get_item_list(request.user)
         return render(request, 'mylist/mylist.html', {'item_list': item_list})
     else:
@@ -37,22 +40,18 @@ def my_list(request, username):
                                                              'has_sent': has_sent, })
 
 
-
-
 @login_required
 def add_item(request, username):
     if request.method == 'GET':
         form = ItemForm()
         return render(request, 'mylist/add_item.html', {'form': form})
     elif request.method == 'POST':
-        success_message = 'The item was created.'
         error_message = 'There was an error. The item was not created.'
         form = ItemForm(request.POST)
         if form.is_valid():
             item = form.save(commit=False)
             item.owner = request.user
             item.save()
-            messages.success(request, success_message)
         else:
             messages.error(request, error_message)
 
@@ -69,27 +68,23 @@ def edit_item(request, username, item_pk):
         elif request.method == 'POST':
             form = ItemForm(request.POST, instance=item)
             if form.is_valid():
-                success_message = 'The item was changed.'
                 form.save()
-                messages.success(request, success_message)
+                messages.success(request, 'The item was changed.')
             else:
                 error_message = 'There was an error. The item was not changed.'
                 messages.error(request, error_message)
-            return redirect(to='mylist:mylist')
+            return redirect(to='mylist:mylist', username=username)
     else:
-        error_message = "There was an error. You cannot edit that item."
-        messages.error(request, error_message)
-        return redirect(to='mylist:mylist')
+        messages.error(request, "There was an error. You cannot edit that item.")
+        return redirect(to='mylist:mylist', username=username)
 
 
 @login_required
 def delete_item(request, username, item_pk):
     item = get_object_or_404(Item, pk=item_pk)
     if item.owner == request.user:
-        success_message = 'The item was deleted.'
-        messages.success(request, success_message)
         remove_item_from_list(item)
     else:
         error_message = 'There was an error. You cannot delete that item.'
         messages.error(request, error_message)
-    return redirect(to='mylist:mylist')
+    return redirect(to='mylist:mylist', username=username)

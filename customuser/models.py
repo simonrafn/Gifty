@@ -34,32 +34,32 @@ class FriendRequest(models.Model):
 
 """
 # get a queryset of the users on your friends list
-def get_friends(self):
-    return self.friends.all()
+def get_friends(user):
+    return user.friends.all()
 
 # get a queryset of the friend requests that have been sent to you, and you haven't accepted/declined
-def get_friend_requests(self):
-    return self.received_friend_requests.all()
+def get_friend_requests(user):
+    return user.received_friend_requests.all()
 
 # create a friend request directed at a user,
 # add him if he has already sent you a friend request
-def send_friend_request(self, receiver):
+def send_friend_request(user, receiver):
     try:
-        self.received_friend_requests.get(sender__pk=receiver.pk)
-        self.accept_friend_request(receiver)
+        user.received_friend_requests.get(sender__pk=receiver.pk)
+        user.accept_friend_request(receiver)
     except ObjectDoesNotExist:
         FriendRequest.objects.create(sender=self, receiver=receiver)
 
 # Add a user to your friends list, given that they've sent you a friend request
 # Also deletes the friend request
-def accept_friend_request(self, sender):
+def accept_friend_request(user, sender):
     try:
-        self.received_friend_requests.get(sender__pk=sender.pk).delete()
-        self.friends.add(sender)
+        user.received_friend_requests.get(sender__pk=sender.pk).delete()
+        user.friends.add(sender)
     except ObjectDoesNotExist:
         logging.exception("User attempted to accept a friend request that didn't exist")
 
 # remove a user from your friends list (you will also be removed from their friends list)
-def remove_friend(self, user_to_remove):
-    self.friends.remove(user_to_remove)
+def remove_friend(user, user_to_remove):
+    user.friends.remove(user_to_remove)
 """
