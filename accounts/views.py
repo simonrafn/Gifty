@@ -56,4 +56,4 @@ class SignUp(generic.CreateView):
         # mylist will redirect to login if the login didn't work
         # super(SignUp, self).form_valid(form)
         # return super().form_valid(form)
-        return redirect(to='mylist:mylist')
+        return redirect(to='mylist:mylist', username=user.username)
