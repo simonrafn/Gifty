@@ -26,7 +26,7 @@
                     {{ item.price }}
                 </div>
                 <div class='col-xs-2' style="height:30px;border-left: 0.5px solid lightgray; text-align:center; padding-left:0px">
-                    <a href="{% url 'comments:view_comments' item_pk=item.pk %}" >
+                    <a href="{% url 'mylist:view_comments' item_pk=item.pk username=item.owner.username %}" >
                         <button class="btn btn-xs btn-primary" style="vertical-align: 2px;">
                             <span class="glyphicon glyphicon-comment" style="vertical-align: -2px;"></span>
                         </button>

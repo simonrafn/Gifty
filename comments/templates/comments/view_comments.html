@@ -38,7 +38,7 @@
 
       <div class="row" id="submit_new_comment_visible_to_item_owner">
         <div class="col-sm-12">
-          <form method="POST" action="{% url 'comments:add_comment' item_pk=item.pk visible_to_item_owner=1 %}">
+          <form method="POST" action="{% url 'mylist:add_comment' item_pk=item.pk visible_to_item_owner=1 username=item.owner.username %}">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit" class="btn btn-primary">Comment</button>
@@ -68,7 +68,7 @@
 
       <div class="row" id="submit_new_comment_not_visible_to_item_owner">
         <div class="col-sm-12">
-          <form method="POST" action="{% url 'comments:add_comment' item_pk=item.pk visible_to_item_owner=0 %}">
+          <form method="POST" action="{% url 'mylist:add_comment' item_pk=item.pk visible_to_item_owner=0 username=item.owner.username %}">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit" class="btn btn-primary">Comment</button>

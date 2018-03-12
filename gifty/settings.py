@@ -127,7 +127,7 @@ STATIC_URL = '/static/'
 
 
 # Redirect here after you log in successfully
-LOGIN_REDIRECT_URL = 'mylist:mylist'
+LOGIN_REDIRECT_URL = 'mylist:own_list'
 # Redirect here if you need to log in to access the site you attempted to access
 LOGIN_URL = 'login'
 # Redirect here when you log out
