@@ -15,8 +15,8 @@ urlpatterns = [
     path('<username>/item=<int:item_pk>/comments/add/<int:visible_to_item_owner>/',
          comments_views.add_comment, name='add_comment'),
 
-    # path('<username>/item=<int:item_pk>/reserve/', views.reserve_item, name='reserve_item'),
-    # path('<username>/item=<int:item_pk>/comments/', views.view_comments, name='view_comments'),
+    path('<username>/item=<int:item_pk>/reserve/', views.reserve_item_view, name='reserve_item'),
+    path('<username>/item=<int:item_pk>/unreserve/', views.unreserve_item_view, name='unreserve_item'),
 
     # path('', views.index, name='index'),
 ]

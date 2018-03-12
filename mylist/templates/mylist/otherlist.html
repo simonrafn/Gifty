@@ -56,8 +56,8 @@
                     <div class='col-xs-2' style="height:30px;border-left: 0.5px solid lightgray; text-align:left; padding-left:15px">
 
                         {% if item.reserver %}
-                            {% if item.reserver is user %}
-                                <a href="" >
+                            {% if item.reserver == user %}
+                                <a href="{% url 'mylist:unreserve_item' username=contact.username item_pk=item.pk %}" >
                                     <button class="btn btn-xs btn-danger" >
                                         Unreserve
                                     </button>
@@ -67,7 +67,7 @@
                             {% endif %}
 
                         {% else %}
-                            <a href="" >
+                            <a href="{% url 'mylist:reserve_item' username=contact.username item_pk=item.pk %}" >
                                 <button class="btn btn-xs btn-success" >
                                     Reserve
                                 </button>
