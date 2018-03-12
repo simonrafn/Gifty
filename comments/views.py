@@ -60,7 +60,7 @@ def add_comment(request, username, item_pk, visible_to_item_owner):
         else:
             error_message = "There was an error. The comment was not created."
             messages.error(request, error_message)
-        return redirect(to='mylist:view_comments', item_pk=item_pk, username=item.owner.username)
+        return redirect(to='mylist:view_comments', item_pk=item_pk, username=username)
     else:
         error_message = 'You do not have access to that item.'
         messages.error(request, error_message)
