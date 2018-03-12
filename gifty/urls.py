@@ -21,6 +21,7 @@ urlpatterns = [
     path('list/', include('mylist.urls')),
     # path('comments/', include('comments.urls')),
     path('contacts/', include('contacts.urls')),
+    path('reservations/', include('reservations.urls')),
     path('accounts/', include('accounts.urls')),
 
     path('admin/', admin.site.urls),

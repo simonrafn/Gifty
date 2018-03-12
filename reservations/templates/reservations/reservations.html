@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h4>My Reservations</h4>
+    {% for item in item_list %}
+        <p>
+            {% if item.link %} <a href="//{{ item.link|cut:'http://'|cut:'https://' }}" target="_blank">{{ item.name }}</a>
+            {% else %} {{ item.name }}
+            {% endif %}
+            for
+            <a href="{% url 'mylist:mylist' username=item.owner.username %}" >
+                {{item.owner}}
+            </a>
+            . Cost: {{item.price}}
+            -
+            <a href="{% url 'mylist:view_comments' item_pk=item.pk username=item.owner.username %}" >
+                <button class="btn btn-xs btn-primary" style="vertical-align: 2px;">
+                    <span class="glyphicon glyphicon-comment" style="vertical-align: -2px;"></span>
+                </button>
+            </a>
+            <a href="{% url 'mylist:unreserve_item' username=item.owner.username item_pk=item.pk %}" >
+                <button class="btn btn-xs btn-danger" >
+                    Unreserve
+                </button>
+            </a>
+        </p>
+    {% empty %}
+        <p>
+            You have not reserved any items yet.
+        </p>
+
+    {% endfor %}
+
+
+{% endblock %}

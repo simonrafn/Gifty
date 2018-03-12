@@ -47,3 +47,8 @@ def reserve_item(user, item):
 def unreserve_item(item):
     item.reserver = None
     item.save(update_fields=['reserver'])
+
+
+def get_reservations(user):
+    return Item.objects.filter(reserver=user)
+

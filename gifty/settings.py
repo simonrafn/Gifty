@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'customuser.apps.CustomuserConfig',
     'mylist.apps.MylistConfig',
     'notifications.apps.NotificationsConfig',
+    'reservations',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
