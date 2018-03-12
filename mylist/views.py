@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.views import generic
@@ -9,6 +9,9 @@ from .forms import ItemForm
 from .models import Item
 from .models import get_item_list
 from .models import remove_item_from_list
+from .models import reserve_item
+from .models import unreserve_item
+
 from customuser.models import User
 from contacts.models import are_friends
 
@@ -92,3 +95,17 @@ def delete_item(request, username, item_pk):
         messages.error(request, error_message)
     return redirect(to='mylist:mylist', username=username)
 
+
+@login_required
+def reserve_item_view(request, username, item_pk):
+    item = get_object_or_404(Item, pk=item_pk)
+    reserve_item(request.user, item)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+
+@login_required
+def unreserve_item_view(request, username, item_pk):
+    item = get_object_or_404(Item, pk=item_pk)
+    if item.reserver == request.user:
+        unreserve_item(item)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
