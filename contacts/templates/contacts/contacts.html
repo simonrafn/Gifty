@@ -7,7 +7,7 @@
     {% for friend_request in friend_requests %}
         <div class="row" >
             <div class='col-xs-5' >
-                <a href="{% url 'mylist:mylist' username=friend_request.sender.username %}" style="margin-right:20px;" >
+                <a href="{% url 'mylist:mylist' username=friend_request.sender.username %}"  >
                     {{ friend_request.sender.username }}
                 </a>
             </div>
