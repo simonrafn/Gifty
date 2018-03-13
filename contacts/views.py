@@ -27,8 +27,6 @@ def get_contacts(request):
 def add_contact(request, user_pk):
     receiver = get_object_or_404(User, pk=user_pk)
     send_friend_request(request.user, receiver)
-    msg = 'Sent friend request to: ' + receiver.username
-    messages.success(request, msg)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 
@@ -36,18 +34,14 @@ def add_contact(request, user_pk):
 def remove_contact(request, user_pk):
     removed_friend = get_object_or_404(User, pk=user_pk)
     remove_friend(request.user, removed_friend)
-    msg = 'Removed contact: ' + removed_friend.username
-    messages.success(request, msg)
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+    return redirect(to='contacts:contacts')
 
 
 @login_required
 def accept_friend_request_view(request, user_pk):
     contact = get_object_or_404(User, pk=user_pk)
     accept_friend_request(request.user, contact)
-    msg = 'Accepted the friend request from: ' + contact.username
-    messages.success(request, msg)
-    return redirect(to='contacts:contacts')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 
 
@@ -55,6 +49,4 @@ def accept_friend_request_view(request, user_pk):
 def decline_friend_request_view(request, user_pk):
     contact = get_object_or_404(User, pk=user_pk)
     decline_friend_request(request.user, contact)
-    msg = 'Declined the friend request from: ' + contact.username
-    messages.success(request, msg)
     return redirect(to='contacts:contacts')

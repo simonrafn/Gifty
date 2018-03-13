@@ -2,50 +2,54 @@
 
 {% block content %}
 
-<h4>Contacts</h4>
-
-{% if msg %}
-<p>{{ msg }}</p>
-{% endif %}
-
+<h4>Friend Requests:</h4>
 {% if friend_requests %}
-    <p>Friend Requests:</p>
     {% for friend_request in friend_requests %}
-        <p>
-            {{ friend_request.sender.username }}
-            <a href="{% url 'contacts:accept_friend_request_view' user_pk=friend_request.sender.pk %}" >
-                <button class="btn btn-xs btn-primary" >
-                    Accept
-                </button>
-            </a>
-            <a href="{% url 'contacts:decline_friend_request_view' user_pk=friend_request.sender.pk %}"  >
-                <button class="btn btn-xs btn-danger" >
-                    Decline
-                </button>
-            </a>
-        </p>
-
+        <div class="row" >
+            <div class='col-xs-5' >
+                <a href="{% url 'mylist:mylist' username=friend_request.sender.username %}" style="margin-right:20px;" >
+                    {{ friend_request.sender.username }}
+                </a>
+            </div>
+            <div class='col-xs-7' >
+                <a href="{% url 'contacts:accept_friend_request_view' user_pk=friend_request.sender.pk %}" >
+                    <button class="btn btn-xs btn-primary" >
+                        Accept
+                    </button>
+                </a>
+                <a href="{% url 'contacts:decline_friend_request_view' user_pk=friend_request.sender.pk %}"  >
+                    <button class="btn btn-xs btn-danger" >
+                        Decline
+                    </button>
+                </a>
+            </div>
+        </div>
     {% endfor %}
-
+{% else %}
+    <sup>You have no pending friend requests.</sup>
 {% endif %}
 
+<h4>Contacts:</h4>
 {% if contacts %}
-    <p>Contacts:</p>
     {% for contact in contacts %}
-        <p>
-
-            <a href="{% url 'mylist:mylist' username=contact.username %}"  >
-                {{ contact.username }}
-            </a>
-            <a href="{% url 'contacts:remove_contact' user_pk=contact.pk %}"  >
-                <button class="btn btn-xs btn-danger" >
-                    Remove
-                </button>
-            </a>
-        </p>
+        <div class="row" >
+            <div class='col-xs-5' >
+                <a href="{% url 'mylist:mylist' username=contact.username %}" >
+                    {{ contact.username }}
+                </a>
+            </div>
+            <div class='col-xs-7' >
+                <a href="{% url 'contacts:remove_contact' user_pk=contact.pk %}"  >
+                    <button class="btn btn-xs btn-danger" >
+                        Remove
+                    </button>
+                </a>
+            </div>
+        </div>
 
     {% endfor %}
-
+{% else %}
+    <sup>You have no contacts yet.</sup>
 {% endif %}
 
 

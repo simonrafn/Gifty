@@ -3,34 +3,56 @@
 {% block content %}
 
 <h4>My Reservations</h4>
-    {% for item in item_list %}
-        <p>
-            {% if item.link %} <a href="//{{ item.link|cut:'http://'|cut:'https://' }}" target="_blank">{{ item.name }}</a>
-            {% else %} {{ item.name }}
-            {% endif %}
-            for
-            <a href="{% url 'mylist:mylist' username=item.owner.username %}" >
-                {{item.owner}}
-            </a>
-            . Cost: {{item.price}}
-            -
-            <a href="{% url 'mylist:view_comments' item_pk=item.pk username=item.owner.username %}" >
-                <button class="btn btn-xs btn-primary" style="vertical-align: 2px;">
-                    <span class="glyphicon glyphicon-comment" style="vertical-align: -2px;"></span>
-                </button>
-            </a>
-            <a href="{% url 'mylist:unreserve_item' username=item.owner.username item_pk=item.pk %}" >
-                <button class="btn btn-xs btn-danger" >
-                    Unreserve
-                </button>
-            </a>
-        </p>
-    {% empty %}
-        <p>
-            You have not reserved any items yet.
-        </p>
 
-    {% endfor %}
+    <div class="row" style="margin-top:10px;">
+        <div class="col-xs-5" style="padding-left:25px;"><strong>Item:</strong></div>
+        <div class="col-xs-2"><strong>Price:</strong></div>
+        <div class="col-xs-2"><strong>Recipient:</strong></div>
+        <div class="col-xs-2"><strong>Unreserve:</strong></div>
+        <div class="col-xs-1"><strong>Chat:</strong></div>
+    </div>
+    <div id="list_of_items" style="width:800px; border: 0.5px solid lightgray; border-radius: 5px; overflow: hidden; margin-top:0px;">
+        {% for item in item_list %}
+            <div class="row" style="line-height: 200%; ">
+                <div class='col-xs-5' style="height:30px; padding-left:25px">
+                    {% if item.link %}
+                        <a href="//{{ item.link|cut:'http://'|cut:'https://' }}" target="_blank">{{ item.name }}</a>
+                    {% else %} {{ item.name }}
+                    {% endif %}
+                </div>
+                <div class='col-xs-2' style="height:30px; border-left: 0.5px solid lightgray;">
+                    {{ item.price }}
+                </div>
+                <div class='col-xs-2' style="height:30px;border-left: 0.5px solid lightgray; text-align:left; padding-left:15px">
+                    <a href="{% url 'mylist:mylist' username=item.owner.username %}" >
+                        {{item.owner}}
+                    </a>
+                </div>
+                <div class='col-xs-2' style="height:30px;border-left: 0.5px solid lightgray; text-align:left; padding-left:15px">
+                    <a href="{% url 'mylist:unreserve_item' username=item.owner.username item_pk=item.pk %}" >
+                        <button class="btn btn-xs btn-danger" >
+                            Unreserve
+                        </button>
+                    </a>
+                </div>
+                <div class='col-xs-1' style="height:30px;border-left: 0.5px solid lightgray; text-align:center; padding-left:0px">
+                    <a href="{% url 'mylist:view_comments' item_pk=item.pk username=item.owner.username %}" >
+                        <button class="btn btn-xs btn-primary" style="vertical-align: 0px;">
+                            <span class="glyphicon glyphicon-comment" style="vertical-align: -2px;"></span>
+                        </button>
+                    </a>
+                </div>
+
+            </div>
+        {% endfor %}
+    </div>
+    <style type="text/css">
+        .row+.row { border-top: 0.5px solid lightgray; }
+        #mylist_container{
+            width:800px;
+            margin: 0 auto;
+        }
+    </style>
 
 
 {% endblock %}
