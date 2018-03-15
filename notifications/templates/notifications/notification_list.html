@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Notifications{% endblock %}
+
+{% block content %}
+
+<h4>Notifications</h4>
+
+<div class="container">
+  {% for notification in notification_list %}
+
+    <div class="row">
+      <div class="col-sm-12">
+        <a href="{{ notification.link }}">
+          {{ notification.message }}
+        </a>
+      </div>
+    </div>
+    <br>
+
+  {% empty %}
+    <p>
+      You have no notifications.
+    </p>
+  {% endfor %}
+</div>
+
+{% endblock %}
