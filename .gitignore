@@ -9,8 +9,8 @@ __pycache__/
 
 # other
 db.sqlite3
-/static
 .DS_Store
+# /static
 
 # other
 todo-*
