@@ -1,3 +1,5 @@
+{% load staticfiles %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,8 +7,12 @@
     <title>Gifty</title>
 
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base_html.css' %}">
+    {% block css %}{% endblock %}
+
+    <script defer src="{% static 'js/fontawesome-all.js' %}" type="text/javascript"></script>
 </head>
 <body>
 
@@ -21,17 +27,22 @@
                     <a href="/" class="navbar_button">My List</a>
                     <a href="{% url 'reservations:reservations' %}" class="navbar_button">Reservations</a>
                     <a href="{% url 'contacts:contacts' %}" class="navbar_button">Contacts</a>
-                    <a href="{% url 'notifications:view_notifications' %}" class="navbar_button">Notifications</a>
+                    <a id="navbar_button_notifications" href="{% url 'notifications:view_notifications' %}" class="navbar_button">
+                        Notifications
+                        <i class="fas fa-square"></i>
+                        <span id="notifications_count"></span>
+                    </a>
                     <a href="{% url 'accounts:settings' %}" class="navbar_button">Settings</a>
                     <a href="{% url 'logout' %}" class="navbar_button">Log Out</a>
-                    {% else %}
-                        <a href="{% url 'login' %}" class="navbar_button">Login</a>
-                        <a href="{% url 'accounts:signup' %}" class="navbar_button">Sign Up</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="navbar_button">Login</a>
+                    <a href="{% url 'accounts:signup' %}" class="navbar_button">Sign Up</a>
                 {% endif %}
             </div>
         </div>
 
     </div>
+
     <div id="main_outer">
         <div id="main_inner">
             {% if messages %}
@@ -47,139 +58,13 @@
         </div>
 
     </div>
-    <style type="text/css">
-        body{
-            font-family: 'Roboto', sans-serif;
-        }
-        #navbar_container{
-            height:70px;
-            width:100%;
-            background:
-                /*linear-gradient(
-                  rgba(99, 149, 242,0.97), rgba(55, 111, 206,0.97)
-                ),*/
-                linear-gradient(
-                  rgba(40,40,40,0.90), rgba(40,40,40,0.90)
-                ),
-                url(https://desktopwalls.net/wp-content/uploads/2015/02/Black%20White%20Grunge%20Concrete%20Texture%20Desktop%20Wallpaper.jpg)
-                ;
-            background-size: cover;
-            border-bottom: 0.5px solid rgba(90, 90, 90, 1);
-            box-shadow: 0px 1px 1.5px rgba(0, 0, 0, 0.35);
-        }
-        #logout_container{
-            position: absolute;
-            right:10px;
-            top: 2px;
-        }
-        .navbar_button{
-            color:black;
-            text-decoration: none !important;
-            border: 0.5px solid black;
-            background-color: #4785ed;
-            background: linear-gradient(#79aafc, #4785ed);
-            padding:5px;
-            box-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.6);
-            font-size: 85%;
 
-            background:
-                linear-gradient(
-                  rgba(121, 170, 252,0.95), rgba(71, 133, 237, 0.95)
-                ),
-                url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJOA1zg9FM3x9kW3LvIJKUzfSS-Smq5364Jy1pIPFCJOwHUEFBpQ)
-                ;
-            background-size: contain;
-        }
-        .navbar_button:hover{
-            background: linear-gradient(#99bfff, #79aafc);
-            color:black;
-        }
-        #navbar_inner{
-            width: 800px;
-            height:70px;
-            margin:0 auto;
-            display: flex;
-            align-items: center;
-            position:relative;
-        }
-        #navbar_title{
-            color:white;
-            margin:0px;
-            padding:0px;
-            transform: translate(-5px, 0px);
-            text-shadow:0.1px 0.1px 1px rgba(255,255,255, 0.001) !important;
-            font-size: 50px;
-
-        }
-        #navbar_title:hover{
-            cursor:pointer;
-            color:rgba(255, 255, 255, 1);
-        }
-        #navbar_buttons_container{
-            position: absolute;
-            right:0px;
-            bottom:0px;
-        }
-        a:hover{
-            text-decoration: none !important;
-        }
-        #main_outer{
-            width:100%;
-        }
-        #main_inner{
-            width:800px;
-            margin:0 auto;
-            padding-top: 10px;
-        }
-        h4{
-            margin-bottom:20px;
-        }
-        *:focus {
-            outline: none !important;
-        }
-        #form_container{
-            width:400px;
-        }
-        #id_name, #id_link, #id_price, #id_username, #id_password, #id_password2, #id_email, #id_password1{
-            width: 326px;
-            line-height: 200%;
-            font-size: 110%;
-            border-top: none;
-            border-left: none;
-            border-right: none;
-          }
-          #id_name::placeholder, #id_link::placeholder, #id_price::placeholder {
-            /* Chrome, Firefox, Opera, Safari 10.1+ */
-            opacity: 1; /* Firefox */
-            color: #C5C5C5;
-          }
-          .submit_button{
-              margin-top:15px;
-              border:none;
-              color: #303030;
-              width: 100%;
-              padding-top:5px;
-              padding-bottom:5px;
-          }
-          label{
-            width:70px;
-          }
-          .fieldWrapper{
-            border-bottom: 1.3px solid #DCDCDC;
-            margin-bottom: 20px;
-          }
-          .innerFieldWrapper{
-            border-bottom: 1.3px solid #DCDCDC;
-          }
-          .outerFieldWrapper{
-            margin-bottom: 20px;
-          }
-          .btn{
-            border-width:0.5px;
-          }
-          .help{
-            font-size: 70%;
-          }
-    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    <script
+            src="{% static 'notifications/js/check_for_unseen_notifications.js' %}"
+            id="check_for_unseen_notifications_script"
+            url="{% url 'notifications:count_unseen_notifications' %}"></script>
+    {% block js %}{% endblock %}
 </body>
 </html>

@@ -126,6 +126,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# Where django should look for static files
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+
 
 # Redirect here after you log in successfully
 LOGIN_REDIRECT_URL = 'mylist:own_list'

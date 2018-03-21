@@ -26,7 +26,7 @@
 
       <div class="row" id="comment_{{ comment.pk }}">
         <div class="col-sm-12">
-          <b>{{ comment.commenter }} - {{ comment.date|date:"jS N G:i" }}</b><br>
+          <b>{{ comment.commenter }} - {{ comment.date|date:"N jS G:i" }}</b><br>
           {{ comment.message }}
         </div>
       </div>

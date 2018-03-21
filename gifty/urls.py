@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls import include
+from gifty import settings
 
 urlpatterns = [
     path('list/', include('mylist.urls')),
@@ -30,3 +31,7 @@ urlpatterns = [
 
     path('', include('mylist.urls')),
 ]
+
+if settings.DEBUG:
+    from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+    urlpatterns += staticfiles_urlpatterns()

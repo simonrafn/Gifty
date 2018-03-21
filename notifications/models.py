@@ -27,8 +27,3 @@ class Notification(models.Model):
     def set_as_seen(self):
         self.is_seen = True
         self.save(update_fields=['is_seen'])
-
-
-# get all notifications directed at a user, that he hasn't seen
-def get_unseen_notifications(user):
-    return user.notifications.filter(is_seen=False)
