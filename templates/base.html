@@ -27,7 +27,7 @@
                     <a href="/" class="navbar_button">My List</a>
                     <a href="{% url 'reservations:reservations' %}" class="navbar_button">Reservations</a>
                     <a href="{% url 'contacts:contacts' %}" class="navbar_button">Contacts</a>
-                    <a id="navbar_button_notifications" href="{% url 'notifications:view_notifications' %}" class="navbar_button">
+                    <a id="navbar_button_notifications" href="{% url 'notifications:view_notifications' page_number=1 %}" class="navbar_button">
                         Notifications
                         <i class="fas fa-square"></i>
                         <span id="notifications_count"></span>

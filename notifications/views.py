@@ -10,10 +10,12 @@ class ViewNotifications(LoginRequiredMixin, generic.ListView):
     model = Notification
 
     def get_queryset(self):
-        result = self.request.user.notifications.order_by('-date')
-        # evaluate the queryset, so all the notifications can be set to seen, without modifying the results
+        page_number = self.kwargs['page_number']
+        results_per_page = 10
+        result = self.request.user.notifications.order_by('-date')[(page_number-1)*results_per_page:page_number*results_per_page]
+        # evaluate the queryset, so all the notifications can be set to seen, without modifying the results returned to the template
         len(result)
-        self.request.user.notifications.update(is_seen=True)
+        self.request.user.notifications.filter(id__in=result).update(is_seen=True)
         return result
 
 

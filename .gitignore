@@ -13,5 +13,4 @@ db.sqlite3
 # /static
 
 # other
-todo-*
-delete-database.ps1
+nogit-*
