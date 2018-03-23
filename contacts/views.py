@@ -12,6 +12,7 @@ from .models import decline_friend_request
 from .models import accept_friend_request
 
 from customuser.models import User
+from notifications.notifiers import friend_request_accepted_notification
 
 
 @login_required
@@ -43,6 +44,10 @@ def accept_friend_request_view(request, user_pk):
     accept_friend_request(request.user, contact)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
+    # create a notification for the event
+    friend_request_accepted_notification(request_sender=contact, request_receiver=request.user)
+
+    return redirect(to='contacts:contacts')
 
 
 @login_required

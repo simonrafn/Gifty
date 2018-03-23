@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls import include
+from gifty import settings
 
 urlpatterns = [
     path('list/', include('mylist.urls')),
@@ -23,9 +24,14 @@ urlpatterns = [
     path('contacts/', include('contacts.urls')),
     path('reservations/', include('reservations.urls')),
     path('accounts/', include('accounts.urls')),
+    path('notifications/', include('notifications.urls')),
 
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
 
     path('', include('mylist.urls')),
 ]
+
+if settings.DEBUG:
+    from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+    urlpatterns += staticfiles_urlpatterns()

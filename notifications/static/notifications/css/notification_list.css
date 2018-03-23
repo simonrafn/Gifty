@@ -1,0 +1,20 @@
+.notification {
+	color: inherit;
+	border-radius: 4px;
+	padding: 3px 10px 3px 10px;
+	display: block;
+}
+
+.notification-seen::after {
+  content: "";
+  display: block;
+  border-bottom: 1px solid #ccc;
+}
+
+.notification-unseen {
+  	background-color: rgba(71,133,237, 0.7);
+}
+
+.notification-unseen:hover {
+  	background-color: rgba(71,133,237, 0.55);
+}

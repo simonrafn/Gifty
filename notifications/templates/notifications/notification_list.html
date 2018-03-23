@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}Notifications{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'notifications/css/notification_list.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+  <h4>Notifications</h4>
+
+  {% for notification in notification_list %}
+
+    <div class="row">
+      <div class="col-sm-12">
+        <a class="notification {% if notification.is_seen %}notification-seen{% else %}notification-unseen{% endif %}" href="{{ notification.link }}">
+            {{ notification.message }}
+            <br>
+            {{ notification.date|date:"N jS G:i" }}
+        </a>
+      </div>
+    </div>
+    <br>
+
+  {% empty %}
+    <p>
+      You have no notifications.
+    </p>
+  {% endfor %}
+
+  <div class="row">
+    <div class="col-sm-2">
+      {% if view.kwargs.page_number > 1 %}
+
+      <a href="{% url 'notifications:view_notifications' page_number=view.kwargs.page_number|add:"-1" %}">
+        <button class="btn btn-primary btn-block">Previous</button>
+      </a>
+
+      {% else %}
+
+      <button disabled class="btn btn-primary btn-block">Previous</button>
+
+      {% endif %}
+    </div>
+    <div class="col-sm-2 col-sm-offset-8">
+      <a href="{% url 'notifications:view_notifications' page_number=view.kwargs.page_number|add:"1" %}">
+        <button class="btn btn-primary btn-block">Next</button>
+      </a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
