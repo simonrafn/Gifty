@@ -4,27 +4,34 @@
 
 {% block content %}
 
-<div class="container">
+<div class="container-fluid">
+
+  <h4>Settings</h4>
+
   <div class="row">
     <div class="col-sm-12">
       <a href="{% url 'accounts:email_change' %}">
-        <button type="button" class="btn btn-primary">Change email</button>
+        <button class="btn btn-primary">Change email</button>
       </a>
     </div>
   </div>
+
+  <br>
 
   <div class="row">
     <div class="col-sm-12">
       <a href="{% url 'accounts:username_change' %}">
-        <button type="button" class="btn btn-primary">Change username</button>
+        <button class="btn btn-primary">Change username</button>
       </a>
     </div>
   </div>
 
+  <br>
+
   <div class="row">
     <div class="col-sm-12">
       <a href="{% url 'password_change' %}">
-        <button type="button" class="btn btn-primary">Change password</button>
+        <button class="btn btn-primary">Change password</button>
       </a>
     </div>
   </div>
