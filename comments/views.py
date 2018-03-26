@@ -7,8 +7,6 @@ from .models import Comment
 from .forms import CommentForm
 
 
-# Create your views here.
-
 @login_required
 def view_comments(request, username, item_pk):
     item = get_object_or_404(Item, pk=item_pk)
@@ -24,25 +22,6 @@ def view_comments(request, username, item_pk):
         error_message = 'You do not have access to that item.'
         messages.error(request, error_message)
         return render(request, 'error.html')
-
-
-"""
-@login_required
-def view_comments(request, item_pk):
-    item = get_object_or_404(Item, pk=item_pk)
-    if request.user == item.owner or request.user in item.owner.friends.all():
-        context = {
-            'form': CommentForm(),
-            'item': item,
-            'comments_visible_to_item_owner': item.comments.filter(visible_to_owner=True),
-            'comments_not_visible_to_item_owner': item.comments.filter(visible_to_owner=False),
-        }
-        return render(request, 'comments/view_comments.html', context)
-    else:
-        error_message = 'You do not have access to that item.'
-        messages.error(request, error_message)
-        return render(request, 'error.html')
-"""
 
 
 @login_required

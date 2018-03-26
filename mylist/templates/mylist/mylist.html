@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 
+{% load staticfiles %}
+
 {% block title %}My list{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'mylist/css/mylist_html.css' %}">
+{% endblock %}
 
 {% block content %}
 <div id="mylist_container">
@@ -49,14 +55,7 @@
                 <span style="line-height: 200%; padding-left:10px;">You have not added any items.</span>
         {% endfor %}
     </div>
-
-    <style type="text/css">
-        .row+.row { border-top: 0.5px solid lightgray; }
-        #mylist_container{
-            width:800px;
-            margin: 0 auto;
-        }
-    </style>
+    
 </div>
 
 

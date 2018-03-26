@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% load staticfiles %}
+
+{% block css %}<link rel="stylesheet" type="text/css" href="{% static 'mylist/css/otherlist.css' %}">{% endblock %}
+
 {% block title %}{{ contact.username }}{% endblock %}
 
 {% block content %}
@@ -87,13 +91,7 @@
                 </div>
             {% endfor %}
         </div>
-        <style type="text/css">
-            .row+.row { border-top: 0.5px solid lightgray; }
-            #mylist_container{
-                width:800px;
-                margin: 0 auto;
-            }
-        </style>
+        
     {% elif are_friends %}
         <p>
             {{contact.username}} has not added any items to his/her list.
