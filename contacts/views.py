@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
 
 from .models import get_friends
 from .models import get_friend_requests
@@ -55,3 +56,10 @@ def decline_friend_request_view(request, user_pk):
     contact = get_object_or_404(User, pk=user_pk)
     decline_friend_request(request.user, contact)
     return redirect(to='contacts:contacts')
+
+
+@login_required
+def count_friend_requests(request):
+    return JsonResponse(
+        {'number_of_friend_requests': request.user.received_friend_requests.count()}
+    )

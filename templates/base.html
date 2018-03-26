@@ -26,11 +26,15 @@
                 {% if user.is_authenticated %}
                     <a href="/" class="navbar_button">My List</a>
                     <a href="{% url 'reservations:reservations' %}" class="navbar_button">Reservations</a>
-                    <a href="{% url 'contacts:contacts' %}" class="navbar_button">Contacts</a>
+                    <a id="navbar_button_contacts" href="{% url 'contacts:contacts' %}" class="navbar_button">
+                        Contacts
+                        <i class="fas fa-square"></i>
+                        <span id="friend_requests_counter"></span>
+                    </a>
                     <a id="navbar_button_notifications" href="{% url 'notifications:view_notifications' page_number=1 %}" class="navbar_button">
                         Notifications
                         <i class="fas fa-square"></i>
-                        <span id="notifications_count"></span>
+                        <span id="notifications_counter"></span>
                     </a>
                     <a href="{% url 'accounts:settings' %}" class="navbar_button">Settings</a>
                     <a href="{% url 'logout' %}" class="navbar_button">Log Out</a>
@@ -62,9 +66,15 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     
     <script
-            src="{% static 'notifications/js/check_for_unseen_notifications.js' %}"
-            id="check_for_unseen_notifications_script"
-            url="{% url 'notifications:count_unseen_notifications' %}"></script>
+        src="{% static 'notifications/js/check_for_unseen_notifications.js' %}"
+        id="check_for_unseen_notifications_script"
+        url="{% url 'notifications:count_unseen_notifications' %}"
+        type="text/javascript"></script>
+    <script 
+        src="{% static 'contacts/js/check_for_friend_requests.js' %}"
+        id="check_for_friend_requests_script"
+        url="{% url 'contacts:count_friend_requests' %}"
+        type="text/javascript"></script>
     {% block js %}{% endblock %}
 </body>
 </html>

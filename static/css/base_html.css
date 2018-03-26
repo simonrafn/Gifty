@@ -45,21 +45,21 @@ body {
     background: linear-gradient(#99bfff, #79aafc);
     color:black;
 }
-#navbar_button_notifications span.double_digit {
+.navbar_button span.double_digit {
     position: absolute;
     right: 4%;
     top: -38%;
     color: black;
     display: none;
 }
-#navbar_button_notifications span.single_digit {
+.navbar_button span.single_digit {
     position: absolute;
     right: 8%;
     top: -38%;
     color: black;
     display: none;
 }
-#navbar_button_notifications .fa-square {
+.navbar_button .fa-square {
     position: absolute;
     right: 0%;
     top: -50%;
